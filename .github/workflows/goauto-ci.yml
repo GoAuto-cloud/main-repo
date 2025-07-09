@@ -1,1 +1,9 @@
-# GoAuto CI workflow
+name: GoAuto CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Hello from GoAuto!"
+

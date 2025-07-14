@@ -1,6 +1,9 @@
+import 'package:evron_go_auto/register.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -59,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       setState(() {
+        openHome();
         _message = 'An error occurred. Please try again.';
       });
     } finally {
@@ -70,14 +74,35 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color primaryDark = const Color(0xFFE37200);
+    Color primary = const Color(0xFFFAAE61);
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.white,
+        appBar: AppBar(
+          titleSpacing: 0, // Align logo to the very left
+          title: Row(
+            children: [
+              // 🔹 Logo on the left
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Image.asset(
+                  'assets/logo.png', // <-- your logo file
+                  height: 70,
+                ),
+              ),
+              // 🔹 App name or title
+              const Text(''),
+            ],
+          ),
+          backgroundColor: Colors.white,
+        ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
     child: ConstrainedBox(
-    constraints: BoxConstraints(maxWidth: 400),
+    constraints: BoxConstraints(maxWidth: 350),
           child: Card(
+            color: Colors.white,
             elevation: 8,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             child: Padding(
@@ -88,18 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Welcome Back',
+                      'Login',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: 35,
                       ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'Mobile',
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.emailAddress,
@@ -115,19 +140,31 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                       validator: (value) => value!.isEmpty ? 'Please enter your password' : null,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 15),
                     _isLoading
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: primaryDark,
                         foregroundColor: Colors.white,
                         minimumSize: const Size.fromHeight(50),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Text('Login'),
+                    ),
+                    const SizedBox(height: 10),
+                   ElevatedButton(
+                      onPressed: _register,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primary,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: const Text('Register'),
                     ),
                     if (_message != null) ...[
                       const SizedBox(height: 16),
@@ -146,6 +183,31 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       ),
+    );
+  }
+
+  void _register() {
+    Fluttertoast.showToast(
+        msg: "Register button clicked!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterPage()),
+    );
+  }
+
+  void openHome() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const BottomNavigationBarExampleApp()),
+          (Route<dynamic> route) => false,
     );
   }
 }

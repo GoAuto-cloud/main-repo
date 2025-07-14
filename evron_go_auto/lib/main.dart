@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login App',
+      title: 'Go auto | Customer Login',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const LoginPage(), // Set initial screen here
       debugShowCheckedModeBanner: false,
